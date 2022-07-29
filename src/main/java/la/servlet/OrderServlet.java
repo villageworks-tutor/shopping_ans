@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import la.bean.CartBean;
+import la.bean.CustomerBean;
 
 /**
  * Servlet implementation class OrderServlet
@@ -56,10 +57,23 @@ public class OrderServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		// リクエストパラメータのactionキーを取得
 		String action = request.getParameter("action");
+		
 		// actionキーによって処理を分岐
 		if (action == null || action.isEmpty() || action.equals("entry")) {
 			// 遷移先URLを設定
 			nextPage = "pages/customerInfo.jsp";
+		} else if (action.equals("confirm")) {
+			// リクエストパラメータを取得：入力値チェックは未実施
+			String name = request.getParameter("name");
+			String address = request.getParameter("address");
+			String tel = request.getParameter("tel");
+			String email = request.getParameter("email");
+			// 顧客をインスタンス化
+			CustomerBean customer = new CustomerBean(name, address, tel, email);
+			// セッションに登録
+			session.setAttribute("customer", customer);
+			// 遷移先URLを設定
+			nextPage = "pages/confirm.jsp";
 		}
 		// 遷移先URLに遷移
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
