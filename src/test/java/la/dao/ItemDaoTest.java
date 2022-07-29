@@ -34,6 +34,32 @@ class ItemDaoTest {
 	}
 	
 	@Nested
+	@DisplayName("ItemDAO#findByPrimaryKeyメソッドのテストクラス")
+	class FindByPrimaryKeyTest {
+		@Test
+		@DisplayName("【Test_32】登録されていない商品の商品番号「-1」の商品はnullである")
+		void test_32() throws Exception {
+			// setup
+			int target = -1;
+			// execute
+			ItemBean actual = sut.findByPrimaryKey(target);
+			// verify
+			assertThat(actual, is(nullValue()));
+		}
+		@Test
+		@DisplayName("【Test_31】商品番号「７」の商品は「パズルゲーム」である")
+		void test_31() throws Exception {
+			// setup
+			int target = 7;
+			ItemBean expected = new ItemBean(7, "パズルゲーム", 780);
+			// execute
+			ItemBean actual = sut.findByPrimaryKey(target);
+			// verify
+			assertThat(actual.toString(), is(expected.toString()));
+		}
+	}
+	
+	@Nested
 	@DisplayName("ItemDAO#findByCategoryメソッドのテストクラス")
 	class FindByCategoryTest {
 		@Test
