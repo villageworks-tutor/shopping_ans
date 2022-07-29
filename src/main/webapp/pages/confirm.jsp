@@ -1,28 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
 	<title>Welcome shopping!</title>
-	<link rel="stylesheet" href="../assets/css/style.css">
+	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
 <!-- ヘッダ表示領域 -->
-<header>
-	<nav id="menu">
-		<ol>
-			<li><a href="./top.html">ようこそ</a></li>
-			<li><a href="./list.html">本</a></li>
-			<li><a href="./list.html">DVD</a></li>
-			<li><a href="./list.html">ゲーム</a></li>
-			<li><a href="./cart.html">カートを見る</a></li>
-		</ol>
-	</nav>
-</header>
+<jsp:include page="parts/header.jsp" />
 
 <!-- メインコンテンツ表示領域 -->
 <main>
 	<article id="confirm">
+		<h2>下記の内容で注文を行いますか？</h2>
 		<section id="cart">
 			<h3>ご注文商品</h3>
 			<table border="1">
@@ -33,29 +26,17 @@
 					<th>個数</th>
 					<th>小計</th>
 				</tr>
+				<c:forEach items="${sessionScope.cart.items}" var="item">
 				<tr>
-					<td>1</td>
-					<td>Javaの基本</td>
-					<td>2500円</td>
-					<td>2</td>
-					<td>5000円</td>
+					<td>${item.code}</td>
+					<td>${item.name}</td>
+					<td>${item.price}円</td>
+					<td>${item.quantity}</td>
+					<td>${item.price * item.quantity}円</td>
 				</tr>
+				</c:forEach>
 				<tr>
-					<td>5</td>
-					<td>The Racer</td>
-					<td>1000円</td>
-					<td>4</td>
-					<td>4000円</td>
-				</tr>
-				<tr>
-					<td>7</td>
-					<td>パズルゲーム</td>
-					<td>780円</td>
-					<td>3</td>
-					<td>2340円</td>
-				</tr>
-				<tr>
-					<td colspan="6" class="right-align">総計：11340円</td>
+					<td colspan="6" class="right-align">総計：${sessionScope.cart.totalPrice}円</td>
 				</tr>
 			</table>
 		</section>
@@ -64,19 +45,19 @@
 			<table border="1">
 				<tr>
 					<th>お名前</th>
-					<td>鈴木一郎</td>
+					<td>${sessionScope.customer.name}</td>
 				</tr>
 				<tr>
 					<th>住所</th>
-					<td>東京都渋谷区</td>
+					<td>${sessionScope.customer.address}</td>
 				</tr>
 				<tr>
 					<th>電話番号</th>
-					<td>03-3333-2222</td>
+					<td>${sesionScope.customer.tel}</td>
 				</tr>
 				<tr>
 					<th>e-mail</th>
-					<td>ichiro@abc.com</td>
+					<td>${sessionScope.customer.email}</td>
 				</tr>
 				<tr>
 					<td colspan="2">
@@ -91,10 +72,7 @@
 </main>
 
 <!-- フッタ表示領域 -->
-<footer>
-	<div id="copyright">&copy; 2022 LA Saple Shopping Site.</div>
-</footer>
-
+<jsp:include page="parts/footer.jsp" />
 
 </body>
 </html>

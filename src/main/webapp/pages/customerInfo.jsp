@@ -69,7 +69,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<button formaction="./confirm.html" formmethod="post">確認画面へ</button>
+							<button formaction="OrderServlet" formmethod="post" name="action" value="confirm">確認画面へ</button>
 						</td>
 					</tr>
 				</table>
