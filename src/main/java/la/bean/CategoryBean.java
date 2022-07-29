@@ -1,10 +1,12 @@
 package la.bean;
 
+import java.io.Serializable;
+
 /**
  * 1件の商品カテゴリーを管理するJavaBean
  * @author tutor
  */
-public class CategoryBean {
+public class CategoryBean implements Serializable {
 
 	/**
 	 * クラスフィールド
