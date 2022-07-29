@@ -111,4 +111,37 @@ public class ItemDAO {
 		}
 	}
 
+	/**
+	 * 指定した商品番号の主賓を取得する。
+	 * @param code 商品番号
+	 * @return ItemBean 商品番号に対応した商品：未登録の商品番号が指定された場合はnullを返す。
+	 * @throws DAOException
+	 */
+	public ItemBean findByPrimaryKey(int code) throws DAOException {
+		String sql = "SELECT * FROM item WHERE code=?";
+		try(// SQL実行オブジェクトを取得
+			PreparedStatement pstmt = this.conn.prepareStatement(sql);) {
+			// パラメータバインディング
+			pstmt.setInt(1, code);
+			try (// SQLの実行と結果セットの取得
+				 ResultSet rs = pstmt.executeQuery()) {
+				// 戻り値の商品を初期化
+				ItemBean bean = null;
+				// 結果セットから商品を取得
+				if (rs.next()) {
+					// 商品をインスタンス化
+					bean = new ItemBean();
+					bean.setCode(rs.getInt("code"));
+					bean.setName(rs.getString("name"));
+					bean.setPrice(rs.getInt("price"));
+				}
+				// 商品を返却
+				return bean;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		}
+	}
+
 }
