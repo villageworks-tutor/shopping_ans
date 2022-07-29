@@ -51,7 +51,7 @@
 			<tr>
 				<td colspan="6" class="button">
 					<form name="order">
-						<button formaction="./customerInfo.html" formmethod="post">注文する</button>
+						<button formaction="OrderServlet" formmethod="post" name="action" value="entry">注文する</button>
 					</form>
 				</td>
 			</tr>
