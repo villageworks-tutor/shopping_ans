@@ -53,7 +53,7 @@
 				</tr>
 				<tr>
 					<th>電話番号</th>
-					<td>${sesionScope.customer.tel}</td>
+					<td>${sessionScope.customer.tel}</td>
 				</tr>
 				<tr>
 					<th>e-mail</th>
