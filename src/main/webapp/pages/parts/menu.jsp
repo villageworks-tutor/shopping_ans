@@ -7,7 +7,7 @@
 		
 		<%-- 【商品カテゴリーリンク】アプリケーションスコープのcategoriesキーの値を反復表示 --%>
 		<c:forEach items="${applicationScope.categories}" var="category">
-		<li><a href="./list.html">${category.name}</a></li>
+		<li><a href="ShowItemServlet?action=list&code=${category.code}">${category.name}</a></li>
 		</c:forEach>
 		
 		<li><a href="./cart.html">カートを見る</a></li>
