@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import la.bean.CategoryBean;
+import la.bean.ItemBean;
 
 /**
  * 商品関連のテーブル（item/category）にアクセスするDAO
@@ -69,6 +70,41 @@ public class ItemDAO {
 			
 			// 商品カテゴリーリストを返却
 			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		}
+	}
+
+	/**
+	 * 指定された商品カテゴリーに含まれる商品を取得する。
+	 * @param categoryCode 商品カテゴリーコード
+	 * @return List<ItemBean> 商品リスト：登録されていない商品カテゴリーが指定された場合は空リスト
+	 * @throws DAOException
+	 */
+	public List<ItemBean> findByCategory(int categoryCode) throws DAOException {
+		String sql = "SELECT * FROM item WHERE category_code=? ORDER BY code";
+		try (// SQL実行オブジェクトを取得
+			 PreparedStatement pstmt = this.conn.prepareStatement(sql);) {
+			// パラメータバインディング
+			pstmt.setInt(1, categoryCode);
+			try (// SQLの実行と結果セットの取得
+				 ResultSet rs = pstmt.executeQuery();) {
+				// 商品リストを初期化
+				List<ItemBean> list = new ArrayList<>();
+				// 結果セットから商品リストを生成
+				while (rs.next()) {
+					// 商品をインスタンス化
+					ItemBean bean = new ItemBean();
+					bean.setCode(rs.getInt("code"));
+					bean.setName(rs.getString("name"));
+					bean.setPrice(rs.getInt("price"));
+					// 商品のインスタンスを商品リストに追加
+					list.add(bean);
+				}
+				// 商品リストを返却
+				return list;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DAOException("レコードの取得に失敗しました。");

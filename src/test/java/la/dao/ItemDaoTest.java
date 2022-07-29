@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import la.bean.CategoryBean;
+import la.bean.ItemBean;
 
 class ItemDaoTest {
 
@@ -30,6 +31,45 @@ class ItemDaoTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
+	}
+	
+	@Nested
+	@DisplayName("ItemDAO#findByCategoryメソッドのテストクラス")
+	class FindByCategoryTest {
+		@Test
+		@DisplayName("【Test_22】登録されていない商品カテゴリーコード「-1」の商品リストは空リストである")
+		void test_22() throws Exception {
+			// setup
+			int target = -1;
+			List<ItemBean> expected = new ArrayList<>();
+			// execute
+			List<ItemBean> actual = sut.findByCategory(target);
+			// verify
+			assertThat(actual, is(expected));
+		}
+		@Test
+		@DisplayName("【Test_21】商品カテゴリーコード「1」の商品は「Javaの基本」「MLB Fun」「料理BOOK!」である")
+		void test_21() throws Exception {
+			// setup
+			int target = 1;
+			List<ItemBean> expectedList = new ArrayList<>();
+			expectedList.add(new ItemBean(1, "Javaの基本", 2500));
+			expectedList.add(new ItemBean(2, "MLB Fun", 980));
+			expectedList.add(new ItemBean(3, "料理BOOK!", 1200));
+			//execute
+			List<ItemBean> actualList = sut.findByCategory(target);
+			// verify
+			if (actualList.size() > 0) {
+				for (int i = 0; i < actualList.size(); i++) {
+					ItemBean actual = actualList.get(i);
+					ItemBean expected =expectedList.get(i);
+					assertThat(actual.toString(), is(expected.toString()));
+				}
+			} else {
+				fail("テスト対象メソッドは実装されていません。");
+			}
+		}
+		
 	}
 	
 	@Nested

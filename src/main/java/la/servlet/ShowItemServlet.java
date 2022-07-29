@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import la.bean.CategoryBean;
+import la.bean.ItemBean;
 import la.dao.DAOException;
 import la.dao.ItemDAO;
 
@@ -55,6 +56,22 @@ public class ShowItemServlet extends HttpServlet {
 		if (action == null || action.isEmpty() || action.equals("top")) {
 			// actionキーが未入力または空文字が指定されているか、または「top」が指定されている場合：遷移先URLを初期画面に設定
 			nextPage = "pages/top.jsp";
+		} else if (action.equals("list")) {
+			// リクエストパラメータから商品カテゴリコードを取得
+			String code = request.getParameter("code");
+			int categoryCode = Integer.parseInt(code);
+			try {
+				// 商品カテゴリーコードに合致した商品を取得
+				ItemDAO dao = new ItemDAO();
+				List<ItemBean> list = dao.findByCategory(categoryCode);
+				// 取得した商品リストをリクエストスコープに登録
+				request.setAttribute("items", list);
+				// 遷移先URLを設定
+				nextPage = "pages/list.jsp";
+			} catch (DAOException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
 		}
 		// 遷移先URLの遷移
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
