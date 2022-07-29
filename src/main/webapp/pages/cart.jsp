@@ -16,6 +16,11 @@
 <main>
 	<article id="cart">
 		<h2>現在のカートの中身</h2>
+		<c:choose>
+		<c:when test="${empty sessionScope.cart.items}">
+		<p>現在、カートは空です。</p>
+		</c:when>
+		<c:otherwise>
 		<table border="1">
 			<tr>
 				<th>商品番号</th>
@@ -51,6 +56,8 @@
 				</td>
 			</tr>
 		</table>
+		</c:otherwise>
+		</c:choose>
 	</article>
 </main>
 
