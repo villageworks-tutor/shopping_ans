@@ -38,9 +38,9 @@
 				<td>${item.quantity}個</td>
 				<td>${item.price * item.quantity}円</td>
 				<td>
-					<form action="./cart.html" method="post">
+					<form action="CartServlet" method="post">
 						<button type="submit" name="action" value="delete">削除</button>
-						<input type="hidden" name="code" value="1" />
+						<input type="hidden" name="code" value="${item.code}" />
 					</form>
 				</td>
 			</tr>

@@ -68,6 +68,25 @@ public class CartBean implements Serializable {
 	}
 	
 	/**
+	 * 指定された商品番号の商品を削除する。
+	 * @param target 削除対象h送品の商品番号
+	 */
+	public void deleteCart(int target) {
+		// 商品を走査
+		for (int i = 0; i < this.items.size(); i++) {
+			ItemBean item = this.items.get(i);
+			if (item.getCode() == target) {
+				// 削除対象商品の商品番号を同じ商品の場合：itemsフィールドから削除（商品リストのインデックスは商品走査のループインデックス）
+				this.items.remove(i);
+				// ループを終了
+				break;
+			}
+		}
+		// 商品総額を再計算
+		this.recalcTotalPrice();
+	}
+
+	/**
 	 * 商品総額を計算する。
 	 */
 	private void recalcTotalPrice() {
