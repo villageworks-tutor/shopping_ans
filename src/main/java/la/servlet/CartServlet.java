@@ -35,8 +35,9 @@ public class CartServlet extends HttpServlet {
 		// 遷移先URLの初期化
 		String nextPage = "pages/errInternal.jsp";
 		// actionキーによる処理の分岐
-		if (action == null || action.isEmpty()) {
-			
+		if (action == null || action.isEmpty() || action.equals("show")) {
+			// 遷移先URLを設定
+			nextPage = "pages/cart.jsp";
 		} else if (action.equals("add")) {
 			try {
 				// リクエストパラメータを取得
@@ -61,8 +62,8 @@ public class CartServlet extends HttpServlet {
 				// 遷移先URLの設定
 				nextPage = "pages/cart.jsp";
 			} catch (DAOException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
+				throw new ServletException(e.getMessage());
 			}
 		}
 		// 遷移先URLの遷移

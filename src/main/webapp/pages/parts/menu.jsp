@@ -10,6 +10,6 @@
 		<li><a href="ShowItemServlet?action=list&code=${category.code}">${category.name}</a></li>
 		</c:forEach>
 		
-		<li><a href="./cart.html">カートを見る</a></li>
+		<li><a href="CartServlet?action=show">カートを見る</a></li>
 	</ol>
 </nav>
