@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import la.bean.CartBean;
 import la.bean.CustomerBean;
+import la.bean.ItemBean;
 
 /**
  * 注文関連のテーブル（customer/ordered/ordered_detail）にアクセスするDAO
@@ -114,6 +115,24 @@ public class OrderDAO {
 			pstmt.setInt(4, cart.getTotalPrice());
 			// SQLの実行
 			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの操作に失敗しました。");
+		}
+		
+		// 注文明細の登録
+		sql = "INSERT INTO ordered_detail VALUES (?, ?, ?)";
+		try (// SQL実行オブジェクトの取得
+			 PreparedStatement pstmt = this.conn.prepareStatement(sql);) {
+			// カート内の商品の登録
+			for (ItemBean item : cart.getItems()) {
+				// パラメータバインディング
+				pstmt.setInt(1, orderNumber);
+				pstmt.setInt(2, item.getCode());
+				pstmt.setInt(3, item.getQuantity());
+				// SQLの実行
+				pstmt.executeUpdate();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DAOException("レコードの操作に失敗しました。");

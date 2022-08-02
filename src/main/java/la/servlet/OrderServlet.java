@@ -99,6 +99,10 @@ public class OrderServlet extends HttpServlet {
 				e.printStackTrace();
 				throw new ServletException(e.getMessage());
 			}
+			
+			// セッションの登録内容を破棄
+			session.removeAttribute("cart");
+			session.removeAttribute("customer");
 		}
 		// 遷移先URLに遷移
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
