@@ -1,6 +1,7 @@
 package la.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,6 +52,8 @@ public class OrderDAO {
 	 * @throws DAOException
 	 */
 	public int saveOrder(CustomerBean customer, CartBean cart) throws DAOException {
+		// 処理実行日付の取得
+		Date today = new Date(System.currentTimeMillis());
 		// 実行するSQL文字列の初期化
 		String sql = "";
 		// 新規顧客番号を取得
@@ -85,9 +88,37 @@ public class OrderDAO {
 			throw new DAOException("レコードの操作に失敗しました。");
 		}
 		
-		// 新規注文番号墓初期化
+		//　新規注文番号を取得
 		int orderNumber = -1;
 		sql = "SELECT nextval('ordered_code_seq')";
+		try (// SQL実行オブジェクトの取得と結果セットの取得
+			 PreparedStatement pstmt = this.conn.prepareStatement(sql);
+			 ResultSet rs = pstmt.executeQuery();) {
+			// 新規注文番号の取得
+			if (rs.next()) {
+				orderNumber = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの操作に失敗しました。");
+		}
+		
+		// 注文の登録
+		sql = "INSERT INTO ordered VALUES (?, ?, ?, ?)";
+		try (// SQL実行オブジェクトの取得
+			 PreparedStatement pstmt = this.conn.prepareStatement(sql);) {
+			// パラメータバインディング
+			pstmt.setInt(1, orderNumber);
+			pstmt.setInt(2, customerCode);
+			pstmt.setDate(3, today);
+			pstmt.setInt(4, cart.getTotalPrice());
+			// SQLの実行
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの操作に失敗しました。");
+		}
+		
 		// 注文番号を返却
 		return orderNumber;
 	}
