@@ -43,6 +43,13 @@ public class OrderDAO {
 		}
 	}
 
+	/**
+	 * 注文処理を実行する。
+	 * @param customer 送付先情報
+	 * @param cart     カート
+	 * @return         新規注文番号
+	 * @throws DAOException
+	 */
 	public int saveOrder(CustomerBean customer, CartBean cart) throws DAOException {
 		// 実行するSQL文字列の初期化
 		String sql = "";
