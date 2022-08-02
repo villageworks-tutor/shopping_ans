@@ -16,7 +16,7 @@
 <main>
 	<article id="complete">
 		<h3 class="message">ご注文ありがとうございました。</h3>
-		<p>お客様の注文番号は <em>${requestScope.orderNuber}</em> になります。</p>
+		<p>お客様の注文番号は <em>${requestScope.orderNumber}</em> になります。</p>
 	</article>
 </main>
 
