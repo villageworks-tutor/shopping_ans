@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import la.bean.CartBean;
 import la.bean.CustomerBean;
+import la.dao.DAOException;
+import la.dao.OrderDAO;
 
 /**
  * Servlet implementation class OrderServlet
@@ -74,6 +76,29 @@ public class OrderServlet extends HttpServlet {
 			session.setAttribute("customer", customer);
 			// 遷移先URLを設定
 			nextPage = "pages/confirm.jsp";
+		} else if (action.equals("order")) {
+			// セッションから顧客を取得
+			CustomerBean customer = (CustomerBean) session.getAttribute("customer");
+			if (customer == null) {
+				// 顧客情報がない場合：不正な走査と判断
+				message = "正しい操作をして下さい。";
+				// 遷移先URLの遷移：エラーページで初期化しているので遷移先は未設定で構わない。
+				RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
+				dispatcher.forward(request, response);
+				return;
+			}
+			try {
+				// 注文確定処理
+				OrderDAO dao = new OrderDAO();
+				int orderNumber = dao.saveOrder(customer, cart);
+				// リクエストスコープに注文番号を登録
+				request.setAttribute("orderNumber", orderNumber);
+				// 遷移先画面を設定
+				nextPage = "pages/complete.jsp";
+			} catch (DAOException e) {
+				e.printStackTrace();
+				throw new ServletException(e.getMessage());
+			}
 		}
 		// 遷移先URLに遷移
 		RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);

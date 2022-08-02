@@ -62,7 +62,7 @@
 				<tr>
 					<td colspan="2">
 						<form>
-							<button formaction="./complete.html" formmethod="post">この内容で注文</button>
+							<button formaction="OrderServlet" formmethod="post" name="action" value="order">この内容で注文</button>
 						</form>
 					</td>
 				</tr>

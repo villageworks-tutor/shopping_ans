@@ -46,13 +46,13 @@
 					<tr>
 						<th>お名前</th>
 						<td>
-							<input type="text" name="name" value="鈴木一郎" />
+							<input type="text" name="name" value="石川五エ門" />
 						</td>
 					</tr>
 					<tr>
 						<th>住所</th>
 						<td>
-							<input type="text" name="address" value="東京都渋谷区" />
+							<input type="text" name="address" value="東京都中央区" />
 						</td>
 					</tr>
 					<tr>
